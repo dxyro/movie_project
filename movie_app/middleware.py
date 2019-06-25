@@ -11,3 +11,11 @@ class SimpleMiddleware:
         cache.set(request.META.get('PATH_INFO'), count)
         response = self.get_response(request)
         return response
+
+
+class CheckByToken:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        return request

@@ -30,7 +30,7 @@ class BouncyTestCase(TestCase):
 
     def test_if_finish_return_true(self):
         ''' if the least number for which the proportion of
-            bouncy numbers is to its percentage '''
+            bouncy numbers is greater or equal than percentage '''
         assert bouncy_numbers.if_finish(538, 269, 50)
 
     def test_if_finish_return_false(self):
