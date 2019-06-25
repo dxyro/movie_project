@@ -1,0 +1,23 @@
+{% extends 'movie_app/../../movie_app/templates/movie_app/base.html' %}
+{% block title %}
+    create_actor
+{% endblock %}
+
+{% block header %}
+    <h1>Create Actor</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+  {% csrf_token %}
+    {{ form.as_p}}
+    <button class="btn btn-primary" type="submit">Enviar</button>
+    </form>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block extrajs %}
+{% endblock %}

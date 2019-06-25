@@ -1,0 +1,7 @@
+.cover{
+    width: 100%;
+    min-height: 420px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

@@ -1,0 +1,40 @@
+{% extends 'movie_app/base.html' %}
+{% load static %}
+
+{% block extrahead %}
+     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+   <div class="login-page">
+      <div class="form">
+          {% block form %}
+          {% endblock %}
+      </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'js/login.js' %}"></script>
+{% endblock %}
