@@ -1,16 +1,13 @@
-import time
 
-
-def set_numbers(number, count):
-    find_more_number(number, count)
-
-
-def find_more_number(number, count):
-    while not if_finish(number, count):
-        number += 1
-        list_initial = list(str(number))
-        count = bouncy_counter(list_initial, count)
-    print_f(number)
+def get_last_one_bouncy(percentage=99):
+    initial = 99
+    count_bouncy = 0
+    while not if_finish(initial, count_bouncy, percentage):
+        initial += 1
+        list_initial = list(str(initial))
+        count_bouncy = bouncy_counter(list_initial, count_bouncy)
+    print_f(initial)
+    return initial
 
 
 def bouncy_counter(list_initial, count):
@@ -31,8 +28,8 @@ def is_bouncy(l):
     return not (non_increasing(l) or non_decreasing(l))
 
 
-def if_finish(number, count):
-    if (count*100)/number >= 99:
+def if_finish(number, count, percentage):
+    if (count*100)/number >= percentage:
         return True
 
     return False
@@ -42,8 +39,4 @@ def print_f(data):
     print(data)
 
 
-initial = 99
-count_bouncy = 0
-
-start = time.time()
-print(set_numbers(initial, count_bouncy), time.time()-start)
+get_last_one_bouncy(50)

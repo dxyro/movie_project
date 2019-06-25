@@ -10,4 +10,3 @@ class MovieViewSetTestClass(TestCase):
         self.client = APIClient()
         self.user = User.objects.create()
         self.movie = Movie.objects.create()
-
