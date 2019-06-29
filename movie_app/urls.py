@@ -1,13 +1,14 @@
 from django.contrib.auth import login
 from django.urls import path, include
-from movie_app.views import MovieAPIDetailView, MovieRateAPIListView,\
+from movie_app.views import MovieAPIDetailView, MovieRateAPIListView, \
     MovieRateAPIDetailView, MovieLoginView, \
-    MovieLogoutView
+    MovieLogoutView, SearchMoviesView
 from .views import HomeView, MovieDetailView, MovieFormExample, ActorCreate
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('home/', HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='home'),
+    path('search/', SearchMoviesView.as_view(), name='search'),
     path('create_actor/', ActorCreate.as_view(), name='create_actor'),
     path('form/', MovieFormExample.as_view(), name='simple-form'),
     path('movie/', MovieAPIDetailView.as_view(), name='movie-list'),

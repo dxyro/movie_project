@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_celery_results',
     'debug_toolbar',
     'rest_framework',
     'rest_framework.authtoken',

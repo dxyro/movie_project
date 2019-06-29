@@ -61,3 +61,7 @@ class MovieRateForm(forms.ModelForm):
     def __init__(self, arg):
         super(MovieRateForm, self).__init__()
         self.arg = arg
+
+
+class SearchMoviesForm(forms.Form):
+    find_movies = forms.CharField()

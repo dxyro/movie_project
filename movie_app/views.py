@@ -8,10 +8,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from movie_app.api.serializers import MovieSerializer, MovieRateSerializer
-from movie_app.forms import FormActor
+from movie_app.forms import FormActor, SearchMoviesForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from movie_app.models import Tokenizer
+from movie_app.models import Tokenizer, Suggest
+from movie_app.tasks import emails, call_command_task
 from .forms import SimpleForm
 from .models import MovieRate, Movie, MovieActor
 from rest_framework.renderers import JSONRenderer
@@ -127,7 +128,7 @@ class MovieRateAPIDetailView(RetrieveUpdateDestroyAPIView):
 
 class MovieLoginView(FormView):
     form_class = AuthenticationForm
-    template_name = '..//registration/login.html'
+    template_name = 'movie_app/registration/login.html'
     success_url = reverse_lazy('home')
 
     def dispatch(self, request, *args, **kwargs):
@@ -154,3 +155,18 @@ class MovieLogoutView(RedirectView):
         # tokenizer.delete()
         logout(request)
         return super(MovieLogoutView, self).get(request, *args, **kwargs)
+
+
+class SearchMoviesView(FormView):
+    form_class = SearchMoviesForm
+    template_name = 'movie_app/search.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        suggest = Suggest.objects.all()
+        if form.data['find_movies']:
+            data_list = form.data['find_movies'].split(', ')
+            for data in data_list:
+                suggest.get_or_create(suggest=data)
+        return super().form_valid(form)
+

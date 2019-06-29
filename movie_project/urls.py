@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('movie_app/', include('movie_app.urls')),
     path(f'api/{settings.API_VERSION}/', include('movie_app.api.urls')),
-    path('', RedirectView.as_view(), name='redirect')
+    path('', RedirectView.as_view(), name='login')
 ]
 
 if settings.DEBUG:

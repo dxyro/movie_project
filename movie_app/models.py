@@ -101,3 +101,10 @@ class Tokenizer(models.Model):
 
     def __str__(self):
         return self.user
+
+
+class Suggest(models.Model):
+    suggest = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.suggest

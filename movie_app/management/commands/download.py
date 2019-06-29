@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         def create_models(model, val, data, instance_list, idx):
-            instance, get = model.objects.get_or_create(name=val, defaults=data)
+            instance, get = model.objects.update_or_create(name=val, defaults=data)
             instance_list.append(instance)
             return instance_list
 
@@ -30,18 +30,20 @@ class Command(BaseCommand):
             search_type = 's='
         else:
             search_type = 't='
-        title = options['title']
+        search_title = options['title']
         apikey = '&apikey=545a0da2'
-        url = pathurl+search_type+title+apikey+type
+        url = pathurl+search_type+search_title+apikey+type
         r = requests.get(url)
 
         response = r.json()
         if response['Response'] == 'True':
             if response['Search']:
+                movie_list = []
                 for movie in response['Search']:
                     url = pathurl+'i='+movie['imdbID']+apikey+type
                     req = requests.get(url)
                     response_mo = req.json()
+                    movie_list.append(response_mo['Title'])
                     m_title = response_mo['Title']
                     m_country = response_mo['Country'].split(', ')
                     m_duration_list = response_mo['Runtime'].split(' min')[0]
@@ -63,19 +65,22 @@ class Command(BaseCommand):
                         m_release_date = datetime.datetime.strptime(m_release, '%d %b %Y')
 
                     instance = []
-
+                    actors = None
                     for idx, name in enumerate(m_actors):
                         defaults = {'name': name, 'age': None}
                         actors = create_models(MovieActor, name, defaults, instance, idx)
                     instance = []
+                    directors = None
                     for idx, name in enumerate(m_director):
                         defaults = {'name': name, 'age': None}
                         directors = create_models(MovieDirector, name, defaults, instance, idx)
                     instance = []
+                    countrys = None
                     for idx, name in enumerate(m_country):
                         defaults = {'name': name}
                         countrys = create_models(Country, name, defaults, instance, idx)
                     instance = []
+                    genres = None
                     for idx, name in enumerate(m_genre):
                         defaults = {'name': name}
                         genres = create_models(Genre, name, defaults, instance, idx)
@@ -109,5 +114,8 @@ class Command(BaseCommand):
                     instance.genre.add(*genres)
 
                     instance.save()
+
+                return 'Para la busqueda: '+search_title+' se agregaron ' \
+                                                         ''+str(len(response['Search']))+' peliculas: '+str(movie_list)
         else:
-            print(response['Error'])
+            return response['Error']

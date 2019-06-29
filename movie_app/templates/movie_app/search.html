@@ -1,0 +1,19 @@
+{% extends 'movie_app/registration/base_registration.html' %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block content %}
+   <div class="login-page">
+      <div class="form">
+          {% block form %}
+              <form method="post" class="login-form"  action="{% url 'search' %}">
+                  {% csrf_token %}
+                  <input type="text" name="find_movies" placeholder="Search..."/>
+                  <button type="submit">Enviar</button>
+              </form>
+          {% endblock %}
+      </div>
+    </div>
+{% endblock %}
